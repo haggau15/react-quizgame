@@ -8,7 +8,6 @@ const QUIZ=getAll();
 
 function FrontPage()
 {
-    console.log(QUIZ);
     return (<div>
         <h1>
             Quiz
@@ -40,6 +39,7 @@ root.render(
 );
 function DisplayAll({quiz})
 {
+    console.log(quiz);
     return <>
         <h1>All questions</h1>
         {
@@ -61,7 +61,10 @@ function DisplayQuiz() {
     this.answer=quiz.correctAnswer;
 
     const navigate=useNavigate();
-
+    function returnHome(e)
+    {
+        navigate("/");
+    }
     function checkAnswer(e,id,answer)
     {
         e.preventDefault();
@@ -83,33 +86,35 @@ function DisplayQuiz() {
             <button  onClick={e => checkAnswer( e,quiz.correctAnswer,2)}>{quiz.answer2}</button>
             <button  onClick={e => checkAnswer( e,quiz.correctAnswer,3)}>{quiz.answer3}</button>
             <button  onClick={e => checkAnswer(e, quiz.correctAnswer,4)}>{quiz.answer4}</button>
-        </>);
+            <div><button onClick={e => returnHome(e)}>Home</button></div>
+        </>
+    );
 }
 
 function AddNewQuestion()
 {
     const [question,setQuestion] = useState("sdaf");
-    const [ans1,setAns1] = useState("asdf");
-    const [ans2,setAns2] = useState("asdf");
-    const [ans3,setAns3] = useState("sd");
-    const [ans4,setAns4] = useState("asdf");
+    const [answer1,setAns1] = useState("asdf");
+    const [answer2,setAns2] = useState("asdf");
+    const [answer3,setAns3] = useState("sd");
+    const [answer4,setAns4] = useState("asdf");
     const [correctAnswer,setCorrectAnswer] = useState(1);
 
     const navigate=useNavigate();
-    function handleSubmit(e ){
+    function handleSubmit(e){
         e.preventDefault();
-        QUIZ.push(question,ans1,ans2,ans3,ans4,correctAnswer);
+        QUIZ.push({question,answer1,answer2,answer3,answer4,correctAnswer});
         navigate("/");
     }
     return(
       <form onSubmit={handleSubmit}>
         <>
-            <div><label> Question: <input value={question}  onChange={e => setQuestion(e.target.value)}/></label></div>
-            <div><label> Answer 1: <input value={ans1} onChange={e => setAns1(e.target.value)}/></label></div>
-            <div><label> Answer 2: <input value={ans2}  onChange={e => setAns2(e.target.value)}/></label></div>
-            <div><label> Answer 3: <input value={ans3}  onChange={e => setAns3(e.target.value)}/></label></div>
-            <div><label> Answer 4: <input value={ans4}  onChange={e => setAns4(e.target.value)}/></label></div>
-            <div><label> Correct number: <input value={correctAnswer}  onChange={e => setCorrectAnswer(Number(e.target.value))}/></label></div>
+            <div><label> Question: <input value={question}  onChange={e => setQuestion(e.target.value)}                         /></label></div>
+            <div><label> Answer 1: <input value={answer1}      onChange={e => setAns1(e.target.value)}                             /></label></div>
+            <div><label> Answer 2: <input value={answer2}      onChange={e => setAns2(e.target.value)}                             /></label></div>
+            <div><label> Answer 3: <input value={answer3}      onChange={e => setAns3(e.target.value)}                             /></label></div>
+            <div><label> Answer 4: <input value={answer4}      onChange={e => setAns4(e.target.value)}                             /></label></div>
+            <div><label> Correct number: <input value={correctAnswer}  onChange={e => setCorrectAnswer(Number(e.target.value))} /></label></div>
             <button>Submit</button>
           </>
       </form>
